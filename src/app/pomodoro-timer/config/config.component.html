@@ -1,8 +1,8 @@
-<div class="config active" [formGroup]="configForm">
+<div class="config active">
 
     <h2>Pomodoro Timer Configuration</h2>
     
-    <form>
+    <form [formGroup]="configForm">
 
       <div class="config-work">
         <label for="workDuration">Work Duration</label>

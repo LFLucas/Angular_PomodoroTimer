@@ -14,7 +14,7 @@ import { timerReducer } from './config/config.reducer';
   declarations: [
     ConfigComponent,
     IndexComponent,
-    TimerComponent
+    TimerComponent,
   ],
   imports: [
     StoreModule.forFeature({ 

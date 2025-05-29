@@ -17,10 +17,11 @@ export class TimerComponent {
 	timer$: Observable<Timer>
 	timer!: Timer
 
+	currentCycle?: number
 	currentTime?: number
 	currentStatus?: string
 	previousStatus?: string
-	countdown?: ReturnType<typeof setInterval>;
+	countdown?: ReturnType<typeof setInterval>
 
 	private store: Store<PomodoroTimerState> = inject(Store<PomodoroTimerState>)
 
@@ -33,40 +34,21 @@ export class TimerComponent {
 		})	
 	}
 
-	async startWork() {
-		this.currentTime = minutesToSeconds(this.timer.workTime)
+	async start(time: number, status: string) {
+		this.currentTime = minutesToSeconds(time)
 		this.previousStatus = this.currentStatus
-		this.currentStatus = timerStatus.WORK
+		this.currentStatus = status
 		if (this.countdown) { clearInterval(this.countdown) }
-		this.countdown = setInterval(() => {
-			if (this.currentTime && this.currentTime > 0) {
-				this.currentTime = this.currentTime - 1
-			} else { this.stop() }
-		}, 1000)
-	}
-
-	async startShortBreak() {
-		this.currentTime = minutesToSeconds(this.timer.shortBreakTime)
-		this.previousStatus = this.currentStatus
-		this.currentStatus = timerStatus.SHORT_BREAK
-		if (this.countdown) { clearInterval(this.countdown) }
-		this.countdown = setInterval(() => {
-			if (this.currentTime && this.currentTime > 0) {
-				this.currentTime = this.currentTime - 1
-			} else { this.stop() }
-		}, 1000)
-	}
-
-	async startLongBreak() {
-		this.currentTime = minutesToSeconds(this.timer.longBreakTime)
-		this.previousStatus = this.currentStatus
-		this.currentStatus = timerStatus.LONG_BREAK
-		if (this.countdown) { clearInterval(this.countdown) }
-		this.countdown = setInterval(() => {
-			if (this.currentTime && this.currentTime > 0) {
-				this.currentTime = this.currentTime - 1
-			} else { this.stop() }
-		}, 1000)
+		return new Promise<void>((resolve) => {
+			this.countdown = setInterval(() => {
+				if (this.currentTime && this.currentTime > 0) {
+					this.currentTime = this.currentTime - 1
+				} else {
+					clearInterval(this.countdown)
+					this.stop()
+					resolve() // Resolve a Promise quando o tempo acabar
+				}
+		}, 1000) })
 	}
 	
 	async stop() {
@@ -95,16 +77,15 @@ export class TimerComponent {
 		}, 1000)
 	}
 	
-	async startCycles() {
+	async runCycles() {
 		for (let i = 1; i <= this.timer.cycles; i++) {
-			await this.startWork()
-			await this.startShortBreak()
-			await this.startWork()
-			await this.startShortBreak()
-			await this.startWork()
-			await this.startLongBreak()
+			this.currentCycle = i
+			await this.start(this.timer.workTime, timerStatus.WORK)
+			await this.start(this.timer.shortBreakTime, timerStatus.SHORT_BREAK)
+			await this.start(this.timer.workTime, timerStatus.WORK)
+			await this.start(this.timer.shortBreakTime, timerStatus.SHORT_BREAK)
+			await this.start(this.timer.workTime, timerStatus.WORK)
+			await this.start(this.timer.longBreakTime, timerStatus.LONG_BREAK)
 		}
-	}
-
-	
+	}	
 }
