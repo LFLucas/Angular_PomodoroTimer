@@ -1,12 +1,9 @@
-<div class="timer">
-    <p class="counter">{{ currentTime }}</p>
-    <p class="status">{{ currentStatus }}</p>
-    <p class="cycles"> {{ currentCycle }}</p>
-    <span class="timer-controls">
-      <button class="timer-btn-start" (click)="runCycles()">Start</button>
-      <button class="timer-btn-stop" (click)="stop()">Stop</button>
-      <button class="timer-btn-pause" (click)="pause()">Pause</button>
-      <button class="timer-btn-resume" (click)="resume()">Resume</button>
-    </span>
-  </div>
-  
+<p class="counter">{{ currentTime }}</p>
+<p class="status">{{ currentStatus }}</p>
+<p class="cycles"> {{ currentCycle }}</p>
+<span class="timer-controls">
+  <button class="timer-btn-start" (click)="runCycles()">Start</button>
+  <button class="timer-btn-stop" (click)="stop()">Stop</button>
+  <button class="timer-btn-pause" (click)="pause()">Pause</button>
+  <button class="timer-btn-resume" (click)="resume()">Resume</button>
+</span>

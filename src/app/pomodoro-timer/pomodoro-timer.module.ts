@@ -8,6 +8,7 @@ import { IndexComponent } from './index/index.component';
 import { TimerComponent } from './timer/timer.component';
 import { StoreModule } from '@ngrx/store';
 import { timerReducer } from './config/config.reducer';
+import { AppbarComponent } from './appbar/appbar.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { timerReducer } from './config/config.reducer';
     ConfigComponent,
     IndexComponent,
     TimerComponent,
+    AppbarComponent,
   ],
   imports: [
     StoreModule.forFeature({ 

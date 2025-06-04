@@ -1,72 +1,9 @@
-.config
-  width: 300px
-  background-color: #ffffff
-  border-left: 4px solid #ff6b6b
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1)
-  padding: 24px
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
-  position: fixed
-  top: 0
-  right: 0
-  height: 100vh
-  overflow-y: auto
-  transition: transform 0.3s ease-in-out
-  z-index: 999
-
-  h2
-    font-size: 1.5rem
-    margin-bottom: 1.5rem
-    color: #333
-
-  label
-    display: block
-    font-weight: 600
-    margin-bottom: 0.4rem
-    color: #555
-
-  input[type="number"]
-    width: 100%
-    padding: 0.6rem
-    margin-bottom: 1.2rem
-    border: 1px solid #ccc
-    border-radius: 8px
-    box-sizing: border-box
-    font-size: 1rem
-    transition: border-color 0.2s ease
-
-    &:focus
-      border-color: #ff6b6b
-      outline: none
-
-  input[type="button"]
-    width: 48%
-    padding: 0.6rem
-    margin-top: 1rem
-    margin-right: 2%
-    font-size: 1rem
-    border: none
-    border-radius: 8px
-    cursor: pointer
-    transition: background-color 0.3s ease
-
-    &:first-of-type
-      background-color: #ff6b6b
-      color: white
-
-      &:hover
-        background-color: #e75a5a
-
-    &:last-of-type
-      background-color: #ccc
-      color: #333
-
-      &:hover
-        background-color: #bbb
-
-@media (max-width: 768px)
-  .config
-    width: 100%
-    height: auto
-    position: relative
-    border-left: none
-    border-top: 4px solid #ff6b6b
+:host
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    width: 25%
+    height: 100%
+    padding:2%
+    

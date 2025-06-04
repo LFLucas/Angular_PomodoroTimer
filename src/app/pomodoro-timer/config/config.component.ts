@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostBinding, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Timer } from '../timer/timer.interface';
 import { initialTimerState } from '../pomodoro-timer.state';
@@ -12,7 +12,8 @@ import { resetConfigAction, setConfigAction } from './config.actions';
   styleUrl: './config.component.sass'
 })
 export class ConfigComponent {
-
+  @HostBinding('class.active') isActive = true;
+  
   private store: Store<PomodoroTimerState> = inject(Store<PomodoroTimerState>);
   private formBuilder: FormBuilder = inject(FormBuilder);
 

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostBinding, inject } from '@angular/core';
 import { Timer } from './timer.interface';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -13,7 +13,7 @@ import { minutesToSeconds } from 'date-fns'
 	styleUrl: './timer.component.sass',
 })
 export class TimerComponent {
-
+	
 	timer$: Observable<Timer>
 	timer!: Timer
 
@@ -31,7 +31,9 @@ export class TimerComponent {
 			next:(timer) => { this.timer = timer },
 			error:(err) => { console.error('Error fetching timer:', err) },
 			complete:() => { console.log('Timer data fetching done') }
-		})	
+		})
+		this.currentTime = minutesToSeconds(this.timer.workTime)
+		this.currentStatus = this.timer.status	
 	}
 
 	async start(time: number, status: string) {
@@ -46,7 +48,7 @@ export class TimerComponent {
 				} else {
 					clearInterval(this.countdown)
 					this.stop()
-					resolve() // Resolve a Promise quando o tempo acabar
+					resolve()
 				}
 		}, 1000) })
 	}

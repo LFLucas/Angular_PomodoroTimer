@@ -1,33 +1,22 @@
-<div class="config active">
-
-    <h2>Pomodoro Timer Configuration</h2>
-    
-    <form [formGroup]="configForm">
-
-      <div class="config-work">
-        <label for="workDuration">Work Duration</label>
-        <input type="number" id="workDuration" name="workDuration" max="60" formControlName="workTime" required />
-      </div>
-    
-      <div class="config-sbreak">
-        <label for="shortBreakDuration">Short Break Duration</label>
-        <input type="number" id="shortBreakDuration" name="shortBreakDuration" max="60" formControlName="shortBreakTime" required />
-      </div>
-    
-      <div class="config-lbreak">
-        <label for="longBreakDuration">Long Break Duration</label>
-        <input type="number" id="longBreakDuration" name="longBreakDuration" max="60" formControlName="longBreakTime" required />
-      </div>
-
-      <div class="config-ncycles">
-        <label for="cycles">Number of Cycles</label>
-        <input type="number" id="cycles" name="cycles" max="20" min="1" formControlName="cycles" required />
-      </div>
-
-      <input type="button" (click)="setConfig()" value="Save"/>
-      <input type="button" (click)="resetConfig()" value="Reset"/>
-    
-    </form>
-    
+<h2 class="config-title">Pomodoro Timer Configuration</h2>
+<form class="config" [formGroup]="configForm">
+  <div class="config-work">
+    <label for="workDuration">Work Duration</label>
+    <input type="number" id="workDuration" name="workDuration" max="60" formControlName="workTime" required />
   </div>
+  <div class="config-sbreak">
+    <label for="shortBreakDuration">Short Break Duration</label>
+    <input type="number" id="shortBreakDuration" name="shortBreakDuration" max="60" formControlName="shortBreakTime" required />
+  </div>
+  <div class="config-lbreak">
+    <label for="longBreakDuration">Long Break Duration</label>
+    <input type="number" id="longBreakDuration" name="longBreakDuration" max="60" formControlName="longBreakTime" required />
+  </div>
+  <div class="config-ncycles">
+    <label for="cycles">Number of Cycles</label>
+    <input type="number" id="cycles" name="cycles" max="20" min="1" formControlName="cycles" required />
+  </div>
+  <input type="button" (click)="setConfig()" id="set-btn" value="Save"/>
+  <input type="button" (click)="resetConfig()" id="reset-btn" value="Reset"/>
+</form>
   

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Host, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'pt-index',
@@ -6,5 +6,4 @@ import { Component } from '@angular/core';
   styleUrl: './index.component.sass'
 })
 export class IndexComponent {
-
 }
