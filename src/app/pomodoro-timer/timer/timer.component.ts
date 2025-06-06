@@ -33,7 +33,8 @@ export class TimerComponent {
 			complete:() => { console.log('Timer data fetching done') }
 		})
 		this.currentTime = minutesToSeconds(this.timer.workTime)
-		this.currentStatus = this.timer.status	
+		this.currentStatus = this.timer.status
+		this.currentCycle = 0
 	}
 
 	async start(time: number, status: string) {

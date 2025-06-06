@@ -12,7 +12,7 @@ import { resetConfigAction, setConfigAction } from './config.actions';
   styleUrl: './config.component.sass'
 })
 export class ConfigComponent {
-  @HostBinding('class.active') isActive = true;
+  @HostBinding('class.active') isActive = false;
   
   private store: Store<PomodoroTimerState> = inject(Store<PomodoroTimerState>);
   private formBuilder: FormBuilder = inject(FormBuilder);

@@ -1,5 +1,5 @@
-<h2 class="config-title">Pomodoro Timer Configuration</h2>
 <form class="config" [formGroup]="configForm">
+  <h2 class="config-title">Pomodoro Timer Configuration</h2>
   <div class="config-work">
     <label for="workDuration">Work Duration</label>
     <input type="number" id="workDuration" name="workDuration" max="60" formControlName="workTime" required />
@@ -16,7 +16,9 @@
     <label for="cycles">Number of Cycles</label>
     <input type="number" id="cycles" name="cycles" max="20" min="1" formControlName="cycles" required />
   </div>
-  <input type="button" (click)="setConfig()" id="set-btn" value="Save"/>
-  <input type="button" (click)="resetConfig()" id="reset-btn" value="Reset"/>
+  <div>
+    <input type="button" (click)="setConfig()" id="set-btn" value="Save"/>
+    <input type="button" (click)="resetConfig()" id="reset-btn" value="Reset"/>
+  </div>
 </form>
   
