@@ -63,9 +63,12 @@ export class TimerComponent {
 	async stop() {
 		this.previousStatus = this.currentStatus
 		this.currentStatus = timerStatus.STOPPED
+		this.currentTime = minutesToSeconds(this.timer.workTime)
+		this.currentCycle = 0
 		if (this.countdown) {
 			clearInterval(this.countdown)
 		}
+
 	}
 	
 	async pause() {
