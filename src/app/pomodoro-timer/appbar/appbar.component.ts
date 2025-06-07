@@ -1,4 +1,4 @@
-import { Component, HostBinding, Output } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Output } from '@angular/core';
 
 @Component({
   selector: 'pt-appbar',
@@ -6,5 +6,10 @@ import { Component, HostBinding, Output } from '@angular/core';
   styleUrl: './appbar.component.sass'
 })
 export class AppbarComponent {
+  @Output() toggleConfig: EventEmitter<void> = new EventEmitter<void>();
+
+  showconfigMenu() {
+    this.toggleConfig.emit();
+  }
   
 }

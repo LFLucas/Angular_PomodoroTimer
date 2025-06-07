@@ -14,7 +14,7 @@ import { minutesToSeconds } from 'date-fns'
 })
 export class TimerComponent {
 	
-	timer$: Observable<Timer>
+	$timer: Observable<Timer>
 	timer!: Timer
 
 	currentCycle?: number
@@ -26,13 +26,15 @@ export class TimerComponent {
 	private store: Store<PomodoroTimerState> = inject(Store<PomodoroTimerState>)
 
 	constructor() {
-		this.timer$ = this.store.select(selectTimer)
-		this.timer$.subscribe({
-			next:(timer) => { this.timer = timer },
+		this.$timer = this.store.select(selectTimer)
+		this.$timer.subscribe({
+			next:(timer) => { 
+				this.timer = timer
+				this.currentTime = minutesToSeconds(this.timer.workTime)
+			},
 			error:(err) => { console.error('Error fetching timer:', err) },
 			complete:() => { console.log('Timer data fetching done') }
 		})
-		this.currentTime = minutesToSeconds(this.timer.workTime)
 		this.currentStatus = this.timer.status
 		this.currentCycle = 0
 	}
@@ -41,8 +43,12 @@ export class TimerComponent {
 		this.currentTime = minutesToSeconds(time)
 		this.previousStatus = this.currentStatus
 		this.currentStatus = status
-		if (this.countdown) { clearInterval(this.countdown) }
-		return new Promise<void>((resolve) => {
+
+		if (this.countdown) { 
+			clearInterval(this.countdown) 
+		}
+		
+		return new Promise<void>( (resolve) => {
 			this.countdown = setInterval(() => {
 				if (this.currentTime && this.currentTime > 0) {
 					this.currentTime = this.currentTime - 1
@@ -81,14 +87,20 @@ export class TimerComponent {
 	}
 	
 	async runCycles() {
+		const cycleSequence = [
+			{ time: this.timer.workTime, status: timerStatus.WORK },
+			{ time: this.timer.shortBreakTime, status: timerStatus.SHORT_BREAK },
+			{ time: this.timer.workTime, status: timerStatus.WORK },
+			{ time: this.timer.shortBreakTime, status: timerStatus.SHORT_BREAK },
+			{ time: this.timer.workTime, status: timerStatus.WORK },
+			{ time: this.timer.longBreakTime, status: timerStatus.LONG_BREAK }
+		];
+
 		for (let i = 1; i <= this.timer.cycles; i++) {
-			this.currentCycle = i
-			await this.start(this.timer.workTime, timerStatus.WORK)
-			await this.start(this.timer.shortBreakTime, timerStatus.SHORT_BREAK)
-			await this.start(this.timer.workTime, timerStatus.WORK)
-			await this.start(this.timer.shortBreakTime, timerStatus.SHORT_BREAK)
-			await this.start(this.timer.workTime, timerStatus.WORK)
-			await this.start(this.timer.longBreakTime, timerStatus.LONG_BREAK)
+			this.currentCycle = i;
+			for (const step of cycleSequence) {
+				await this.start(step.time, step.status);
+			}
 		}
 	}	
 }
