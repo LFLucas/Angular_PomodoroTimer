@@ -6,8 +6,49 @@
     justify-content: space-between
     box-sizing: border-box
     width: 100%
-    height: 10vh
-    padding: 1%
+    height: 15vh
+    padding: 2%
     z-index: 1
 
+    & button
+        all: unset
+        width: 3rem
+        height: 3rem
+        display: flex
+        justify-content: center
+        align-items: center
+        
+.appbar-title
+    font-size: 2rem
+    font-weight: 600
+
+
+
+
+
+
+
 // cosmetic //
+
+:host
+    background-color: #ca1919
+    color: #f0f0f0
+    font-family: "Playwrite DK Loopet", cursive
+    box-shadow: 0 1px 20px 2px rgba(0, 0, 0, 0.3)
+
+    & button
+        transition: color 0.3s ease, background-color 0.3s ease
+        color: #f0f0f0
+        background-color: transparent
+        border: none
+        font-size: 1.5rem
+        cursor: pointer
+        background-color: transparent
+        border-radius: 10%
+
+        &:hover
+            background-color: #9e1e1e 
+
+        &:active
+            background-color: #7a1a1a   
+    
