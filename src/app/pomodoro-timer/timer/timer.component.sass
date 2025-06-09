@@ -1,15 +1,33 @@
 // structure //
     
 :host
-    width: 50%
-    height: 50%
+    z-index: 1
+    width: 60%
+    height: 60%
     display: flex
     flex-direction: column
     align-items: center
     justify-content: space-between
-    box-sizing: border-box
     margin: auto 0
+    padding: 5%
 
+.timer-counter
+    width: 100%
+    align-items: center
+    justify-content: center
+    text-align: center
+
+.timer-status
+    width: 100%
+    align-items: center
+    justify-content: center
+    text-align: center
+
+.timer-cycles
+    width: 100%
+    align-items: center
+    justify-content: center
+    text-align: center
 
 .timer-control
     width: 100%
@@ -18,29 +36,42 @@
     justify-content: space-around
 
 
-.timer-counter
-    width: 100%
-    display: flex
-    align-items: center
-    justify-content: center
-    font-size: 3rem
-    font-weight: bold
-    text-align: center
 
-.text-status
-    width: 100%
-    display: flex
-    align-items: center
-    justify-content: center
-    font-size: 1.5rem
-    text-align: center
 
-.timer-cycles
-    width: 100%
-    display: flex
-    align-items: center
-    justify-content: center
-    font-size: 1.2rem
-    text-align: center
 
 // cosmetic //
+:host
+    font-family: "Playwrite DK Loopet", cursive
+    color: #f0f0f0
+    background-color: rgba(0, 0, 0, 0.5)
+    backdrop-filter: blur(20px)
+
+.timer-counter
+    font-size: 7rem
+    font-weight: bold
+
+.timer-status
+    font-size: 2rem
+
+.timer-cycles
+    font-size: 2rem
+
+.timer-control 
+    & *
+        all: unset
+        color: #f0f0f0
+        background-color: #ff5959
+        border-radius: 10%
+        padding: 0.8rem 0.8rem
+        font-size: 1.5rem
+        cursor: pointer
+        transition: background-color 0.3s ease
+
+        &:hover
+            background-color: #ca4c4c 
+
+        &:active
+            background-color: #cc1c1c
+        &:disabled
+            color: #a0a0a0
+            background-color: #4c4c4c
