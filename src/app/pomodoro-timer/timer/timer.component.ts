@@ -26,6 +26,17 @@ export class TimerComponent {
 	
 	previousStatus?: string
 
+	constructor() {}
+
+	start(){ /* implementar */ }
+	
+	pause(){ /* implementar */ }
+	
+	stop(){ /* implementar */ }
+	
+	resume(){ /* implementar */ }
+	
+	runCycles(){ /* implementar */ }
 
 	
 }
