@@ -5,7 +5,6 @@
     display: flex
     flex-direction: column
     box-sizing: border-box
-    transition: right 0.5s ease-in-out 
     width: 25%
     height: 100%
     padding: 10% 5% 2% 5%
@@ -26,3 +25,54 @@
     justify-content: space-between
 
 // cosmetic //
+
+:host
+    transition: right 0.5s ease-in-out 
+    background-color: #ca1919
+    color: white
+    font-family: "Playwrite DK Loopet", cursive
+    box-shadow: 1px 0 20px 2px rgba(0, 0, 0, 0.3)
+
+
+.config
+    & *
+        all: unset
+        display: flex
+        justify-content: center
+        align-items: center
+        flex-direction: column
+
+        & input[type=number]
+            background-color: #7c1e1e
+            padding: 0.2rem 0.4rem
+            border-radius: 5px
+
+        & *
+            margin: 0.5rem 0 
+    
+    & .config-title
+        font-size: 1.5rem
+        font-weight: 600
+        margin-bottom: 1rem
+
+    & .config-buttons
+        flex-direction: row
+
+        & *
+            all: unset
+            transition: color 0.3s ease, background-color 0.3s ease
+            color: #f0f0f0
+            background-color: #ff5959
+            border: none
+            font-size: 1.5rem
+            cursor: pointer
+            border-radius: 10%
+            margin: 0 0.5rem
+            padding: 0.5rem 1rem
+            
+            &:hover
+                background-color: #9e1e1e 
+
+            &:active
+                background-color: #7a1a1a   
+        
