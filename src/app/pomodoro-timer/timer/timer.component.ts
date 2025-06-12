@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { PomodoroTimerState } from '../pomodoro-timer-state.interface';
 import { selectTimer } from '../config/config.selector';
 import { timerStatus } from './timer.status';
-import { minutesToSeconds } from 'date-fns'
+import { Duration } from 'luxon'
 
 @Component({
 	selector: 'pt-timer',
@@ -14,33 +14,54 @@ import { minutesToSeconds } from 'date-fns'
 })
 export class TimerComponent {
 	
-	$timer: Observable<Timer>
+	private store = inject(Store<PomodoroTimerState>);
+	private timer$: Observable<Timer> = this.store.select(selectTimer);
+	
 	timer!: Timer
+	countdown?: ReturnType<typeof setInterval> = undefined
 
-	currentCycle?: number
-	currentTime?: number
+	currentTime?: Duration
 	currentStatus?: string
+	currentCycle?: number
+	
 	previousStatus?: string
-	countdown?: ReturnType<typeof setInterval>
 
-	private store: Store<PomodoroTimerState> = inject(Store<PomodoroTimerState>)
 
-	constructor() {
-		this.$timer = this.store.select(selectTimer)
-		this.$timer.subscribe({
-			next:(timer) => { 
-				this.timer = timer
-				this.currentTime = minutesToSeconds(this.timer.workTime)
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+constructor() {
+		this.timer$.subscribe({
+			next: (timer: Timer) => { 
+				this.timer = timer 
+				this.currentTime = Duration.fromObject({ minutes: timer.workTime })
+				this.currentStatus = timer.status
+				this.currentCycle = timer.cycles
+				this.currentTimeString = this.currentTime.toFormat('mm:ss')
+				console.log(this.currentTimeString)
+
 			},
-			error:(err) => { console.error('Error fetching timer:', err) },
-			complete:() => { console.log('Timer data fetching done') }
-		})
-		this.currentStatus = this.timer.status
-		this.currentCycle = 0
+			error: (err) => console.error('Error fetching timer:', err),
+			complete: () => console.log('Timer subscription completed')
+		});
 	}
 
 	async start(time: number, status: string) {
-		this.currentTime = minutesToSeconds(time)
+		this.currentTime = Duration.fromObject({ minutes: time })
+		this.currentTimeString = this.currentTime.toFormat('mm:ss')
+		console.log(this.currentTimeString)
 		this.previousStatus = this.currentStatus
 		this.currentStatus = status
 
@@ -50,10 +71,11 @@ export class TimerComponent {
 		
 		return new Promise<void>( (resolve) => {
 			this.countdown = setInterval(() => {
-				if (this.currentTime && this.currentTime > 0) {
-					this.currentTime = this.currentTime - 1
+				if (this.currentTime && this.currentTime.as('seconds') > 0) {
+					this.currentTime.minus({seconds: 1})
+					this.currentTimeString = this.currentTime.toFormat('mm:ss')
+					console.log(this.currentTimeString)
 				} else {
-					clearInterval(this.countdown)
 					this.stop()
 					resolve()
 				}
@@ -63,7 +85,9 @@ export class TimerComponent {
 	async stop() {
 		this.previousStatus = this.currentStatus
 		this.currentStatus = timerStatus.STOPPED
-		this.currentTime = minutesToSeconds(this.timer.workTime)
+		this.currentTime = Duration.fromObject({ minutes: this.timer?.workTime })
+		this.currentTimeString = this.currentTime.toFormat('mm:ss')
+		console.log(this.currentTimeString)
 		this.currentCycle = 0
 		if (this.countdown) {
 			clearInterval(this.countdown)
@@ -79,13 +103,17 @@ export class TimerComponent {
 		}
 	}
 	
-	async resume() {
+	async resume() {	
 		this.currentStatus = this.previousStatus
 		if (this.countdown) { clearInterval(this.countdown) }
 		this.countdown = setInterval(() => {
-			if (this.currentTime && this.currentTime > 0) {
-				this.currentTime = this.currentTime - 1
-			} else { this.stop() }
+			if (this.currentTime && this.currentTime.as('seconds') > 0) {
+				this.currentTime.minus({seconds: 1})
+				this.currentTimeString = this.currentTime.toFormat('mm:ss')
+				console.log(this.currentTimeString)
+			} else { 
+				this.stop() 
+			}
 		}, 1000)
 	}
 	
@@ -106,4 +134,5 @@ export class TimerComponent {
 			}
 		}
 	}	
-}
+
+*/
