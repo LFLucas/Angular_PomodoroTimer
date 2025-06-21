@@ -5,6 +5,7 @@ import { initialTimerState } from '../pomodoro-timer.state';
 import { Store } from '@ngrx/store';
 import { PomodoroTimerState } from '../pomodoro-timer-state.interface';
 import { resetConfigAction, setConfigAction } from './config.actions';
+import { Duration } from 'luxon'
 
 @Component({
   selector: 'pt-config',
@@ -30,7 +31,12 @@ export class ConfigComponent {
   }
 
   setConfig(){
-    this.store.dispatch(setConfigAction({ timer: this.configForm.value as Partial<Timer> }));
+    let config = {
+      workTime: Duration.fromObject(this.configForm.get('workTime')!.value),
+      shortBreakTime: Duration.fromObject(this.configForm.get('shortBreakTime')!.value),
+      longBreakTime: Duration.fromObject(this.configForm.get('longBreakTime')!.value),
+    }
+    this.store.dispatch(setConfigAction({ timer: config as Partial<Timer> }));
     console.log("config form setted",this.configForm.value as Partial<Timer>);
   }
 

@@ -6,6 +6,7 @@ import { PomodoroTimerState } from '../pomodoro-timer-state.interface';
 import { selectTimer } from '../config/config.selector';
 import { timerStatus } from './timer.status';
 import { Duration } from 'luxon'
+import { TimerService } from '../services/timer.service';
 
 @Component({
 	selector: 'pt-timer',
@@ -13,19 +14,13 @@ import { Duration } from 'luxon'
 	styleUrl: './timer.component.sass',
 })
 export class TimerComponent {
-	
-	private store = inject(Store<PomodoroTimerState>);
-	private timer$: Observable<Timer> = this.store.select(selectTimer);
-	
-	timer!: Timer
-	countdown?: ReturnType<typeof setInterval> = undefined
+
+	private timerService: TimerService = inject(TimerService);
 
 	currentTime?: Duration
 	currentStatus?: string
 	currentCycle?: number
 	
-	previousStatus?: string
-
 	constructor() {}
 
 	start(){ /* implementar */ }
@@ -35,8 +30,6 @@ export class TimerComponent {
 	stop(){ /* implementar */ }
 	
 	resume(){ /* implementar */ }
-	
-	runCycles(){ /* implementar */ }
 
 	
 }
