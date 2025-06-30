@@ -1,11 +1,7 @@
 import { Component, HostBinding, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Timer } from '../timer/timer.interface';
-import { initialTimerState } from '../pomodoro-timer.state';
-import { Store } from '@ngrx/store';
-import { PomodoroTimerState } from '../pomodoro-timer-state.interface';
-import { resetConfigAction, setConfigAction } from './config.actions';
-import { Duration } from 'luxon'
+import { initialTimerState, rawInitialTimerState } from '../pomodoro-timer.state';
+import { ConfigService } from '../services/config-service/config.service';
 
 @Component({
   selector: 'pt-config',
@@ -15,8 +11,9 @@ import { Duration } from 'luxon'
 export class ConfigComponent {
   @HostBinding('class.active') isActive = false;
   
-  private store: Store<PomodoroTimerState> = inject(Store<PomodoroTimerState>);
+  
   private formBuilder: FormBuilder = inject(FormBuilder);
+  private configService: ConfigService = inject(ConfigService)
 
   configForm: FormGroup = this.formBuilder.group({
 		workTime: [30, [Validators.max(60), Validators.min(1)]],
@@ -26,25 +23,20 @@ export class ConfigComponent {
 	}) 
 
   constructor() {
-    let {status, ...timerState} = initialTimerState;
-    this.configForm.patchValue(timerState);
+    this.configForm.patchValue(rawInitialTimerState);
   }
 
   setConfig(){
-    let config = {
-      workTime: Duration.fromObject(this.configForm.get('workTime')!.value),
-      shortBreakTime: Duration.fromObject(this.configForm.get('shortBreakTime')!.value),
-      longBreakTime: Duration.fromObject(this.configForm.get('longBreakTime')!.value),
-    }
-    this.store.dispatch(setConfigAction({ timer: config as Partial<Timer> }));
-    console.log("config form setted",this.configForm.value as Partial<Timer>);
+    this.configService.setConfig(this.configForm.value)
+    console.log("Timer Setted")
   }
 
   resetConfig(){
-    let {status, ...timerState} = initialTimerState;
-    this.configForm.patchValue(timerState)
-    this.store.dispatch(resetConfigAction({ timer: timerState }));  
-    console.log("config form resetted", timerState as Partial<Timer>);
+    this.configForm.patchValue(initialTimerState)
+    this.configService.resetConfig()
+    this.configForm.patchValue(rawInitialTimerState);
+
+    console.log("Timer Resetted")
   }
 
 }

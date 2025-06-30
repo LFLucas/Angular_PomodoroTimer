@@ -7,8 +7,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IndexComponent } from './index/index.component';
 import { TimerComponent } from './timer/timer.component';
 import { StoreModule } from '@ngrx/store';
-import { timerReducer } from './config/config.reducer';
+import { timerReducer } from './services/config-service/config.reducer';
 import { AppbarComponent } from './appbar/appbar.component';
+import { TimerService } from './services/timer-service/timer.service';
+import { ConfigService } from './services/config-service/config.service';
 
 
 @NgModule({
@@ -27,6 +29,10 @@ import { AppbarComponent } from './appbar/appbar.component';
     AsyncPipe,
     ReactiveFormsModule,
     PomodoroTimerRoutingModule
+  ],
+  providers: [
+    TimerService,
+    ConfigService
   ]
 })
 export class PomodoroTimerModule { }

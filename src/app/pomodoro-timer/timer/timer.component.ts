@@ -1,12 +1,8 @@
-import { Component, HostBinding, inject } from '@angular/core';
-import { Timer } from './timer.interface';
-import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { PomodoroTimerState } from '../pomodoro-timer-state.interface';
-import { selectTimer } from '../config/config.selector';
-import { timerStatus } from './timer.status';
+import { Component, inject } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Duration } from 'luxon'
-import { TimerService } from '../services/timer.service';
+import { TimerService } from '../services/timer-service/timer.service';
+import { formatDurationToMinutesSeconds } from '../helpers/format-duration.helper';
 
 @Component({
 	selector: 'pt-timer',
@@ -18,18 +14,50 @@ export class TimerComponent {
 	private timerService: TimerService = inject(TimerService);
 
 	currentTime?: Duration
+	currentTimeFormatted?: string
 	currentStatus?: string
-	currentCycle?: number
+	currentCycle?: number 
+	currentPhase?: string
 	
-	constructor() {}
+	timerSubscription?: Subscription
+	controllerSubscription?: Subscription
 
-	start(){ /* implementar */ }
+	constructor() {	
+		this.controllerSubscription = this.timerService.controller.subscribe({
+			next: (value) => this.currentStatus = value,
+			error: (error) => console.error(error),
+			complete: () => console.log("Controller Transmission Complete")
+		})
+	}
+
+	start(){
+		this.stop()
+		this.timerService.start()
+		this.timerSubscription = this.timerService.timer?.subscribe({
+			next: (value) => {
+				this.currentTimeFormatted = formatDurationToMinutesSeconds(value.currentTime)
+				this.currentTime = value.currentTime
+				this.currentCycle = value.currentCycle
+				this.currentPhase = value.currentPhase
+			},
+			error: (error) => console.error(error),
+			complete: () => console.log("Timer Transmission Complete")
+		})
+	}
 	
-	pause(){ /* implementar */ }
+	pause(){
+		this.timerService.pause()
+	}
 	
-	stop(){ /* implementar */ }
+	stop(){
+		this.timerSubscription?.unsubscribe()
+		this.timerSubscription = undefined
+		this.timerService.stop()
+	}
 	
-	resume(){ /* implementar */ }
+	resume(){
+		this.timerService.resume()
+	}
 
 	
 }

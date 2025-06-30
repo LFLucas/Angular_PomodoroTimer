@@ -1,5 +1,6 @@
-<p class="timer-counter">{{ currentTime }}</p>
-<p class="timer-status">{{ currentStatus }}</p>
+<p class="timer-counter">{{ currentTimeFormatted }}</p>
+<p class="timer-runningstatus">{{ currentStatus }}</p>
+<p class="timer-phasestatus">{{ currentPhase }}</p>
 <p class="timer-cycles"> Cycle {{ currentCycle }}</p>
 <span class="timer-control">
   <button class="control-btn-start" (click)="start()">Start</button>

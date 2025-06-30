@@ -1,15 +1,22 @@
 import { Duration } from 'luxon';
+import { PhaseStatus, RunningStatus } from './timer.status';
 
 export interface Timer{
   workTime: Duration,
   shortBreakTime: Duration,
   longBreakTime: Duration,
-  status: string,
+  cycles: number,
+}
+
+export interface RawTimer{
+  workTime: number,
+  shortBreakTime: number,
+  longBreakTime: number,
   cycles: number,
 }
 
 export interface Countdown  {
   currentTime: Duration,
-  currentStatus: string,
+  currentPhase: PhaseStatus
   currentCycle: number,
 }
