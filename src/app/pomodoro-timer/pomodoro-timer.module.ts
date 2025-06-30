@@ -11,6 +11,7 @@ import { timerReducer } from './services/config-service/config.reducer';
 import { AppbarComponent } from './appbar/appbar.component';
 import { TimerService } from './services/timer-service/timer.service';
 import { ConfigService } from './services/config-service/config.service';
+import { SoundService } from './services/sound-service/sound.service';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { ConfigService } from './services/config-service/config.service';
   ],
   providers: [
     TimerService,
-    ConfigService
+    ConfigService,
+    SoundService
   ]
 })
 export class PomodoroTimerModule { }

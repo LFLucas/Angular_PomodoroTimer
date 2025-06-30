@@ -2,17 +2,20 @@ import { inject, Injectable } from '@angular/core';
 import { PomodoroTimerState } from '../../pomodoro-timer-state.interface';
 import { Store } from '@ngrx/store';
 import { selectTimer } from '../config-service/config.selector';
-import { interval, Observable, Subject, map, BehaviorSubject, filter, takeWhile, withLatestFrom, concat, concatMap, distinctUntilChanged, startWith } from 'rxjs';
+import { interval, Observable, Subject, map, BehaviorSubject, filter, takeWhile, withLatestFrom, concat, concatMap, distinctUntilChanged, startWith, tap, finalize } from 'rxjs';
 import { Countdown, Timer } from './timer.interface';
 import { initialTimerState } from '../../pomodoro-timer.state';
 import { Duration } from 'luxon'
 import { RunningStatus, PhaseStatus, runningStatus, phaseStatus } from './timer.status';
+import { SoundService } from '../sound-service/sound.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TimerService{
   private store: Store<PomodoroTimerState> = inject(Store<PomodoroTimerState>)
+  private soundService: SoundService = inject(SoundService)
+
   private timerState: Timer = {
     cycles: initialTimerState.cycles,
     longBreakTime: initialTimerState.longBreakTime,
@@ -55,6 +58,9 @@ export class TimerService{
           currentPhase: _status
         } as Countdown
       }),
+      tap((countdown) => {
+        if (countdown.currentTime.as('seconds') == 5) this.soundService.play()
+      }),
       takeWhile((countdown) => countdown.currentTime.as('seconds') >= 0, true),
       distinctUntilChanged((prev, curr) => 
         curr.currentCycle == prev.currentCycle &&
@@ -76,7 +82,7 @@ export class TimerService{
         this.createCountdown(this.timerState.longBreakTime, phaseStatus.LONG_BREAK, cycle)
     )}
     return concat(...countdowns).pipe(
-      takeWhile(() => this.control$.getValue() != runningStatus.STOPPED)
+      takeWhile(() => this.control$.getValue() != runningStatus.STOPPED),
     )
   }
 
